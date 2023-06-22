@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1
+namespace WinFormsApp1.Rendering
 {
-    public interface IResampler
+    internal class Renderer
     {
-        Polygon Resample(Polygon polygon);
     }
 }

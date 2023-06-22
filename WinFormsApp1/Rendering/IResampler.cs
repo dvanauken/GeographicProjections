@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1
+namespace WinFormsApp1.Rendering
 {
-    internal class Projection
+    public interface IResampler
     {
+        Polygon Resample(Polygon polygon);
     }
 }

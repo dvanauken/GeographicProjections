@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1
+namespace WinFormsApp1.Projections
 {
-    internal interface IProjection
+    internal class Projection
     {
     }
 }
