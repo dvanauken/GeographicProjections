@@ -9,10 +9,6 @@ namespace GeographicProjections.Rendering
         private int width;
         private int height;
 
-        public Renderer()
-        {
-        }
-
         public Renderer(int width, int height)
         {
             this.width = width;
