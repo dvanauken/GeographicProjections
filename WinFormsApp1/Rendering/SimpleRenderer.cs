@@ -21,9 +21,15 @@ namespace GeographicProjections.Rendering
         {
             List<Coordinate> coordinates = await shorelineData.GetShorelineDataAsync();
 
-            // Use the coordinates and the projection to render the map on the bitmap...
-        }
+            // Convert each coordinate to a point using the projection
+            List<Point3D> points = coordinates.Select(coordinate => projection.Forward(coordinate)).ToList();
 
+            // Draw each point on the bitmap
+            foreach (Point3D point in points)
+            {
+                DrawPoint(point);
+            }
+        }
 
         public void DrawPoint(Point3D point)
         {
