@@ -1,4 +1,5 @@
-﻿using GeographicProjections.Projections;
+﻿using GeographicProjections.Geometry;
+using GeographicProjections.Projections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace GeographicProjections.Rendering
 
         public async Task Render(IProjection projection, Bitmap bitmap)
         {
-            List<Coordinate> coordinates = await shorelineData.GetShorelineDataAsync();
+            List<Projections.Coordinate> coordinates = await shorelineData.GetShorelineDataAsync();
 
             // Convert each coordinate to a point using the projection
             List<Point3D> points = coordinates.Select(coordinate => projection.Forward(coordinate)).ToList();

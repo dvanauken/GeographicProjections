@@ -1,4 +1,5 @@
-﻿using GeographicProjections.Projections;
+﻿using GeographicProjections.Geometry;
+using GeographicProjections.Projections;
 using GeographicProjections.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace GeographicProjections.Controller
 
         public async Task<Bitmap> RenderMapAsync()
         {
-            List<Coordinate> shoreline = await _shorelineData.GetShorelineDataAsync();
+            List<Projections.Coordinate> shoreline = await _shorelineData.GetShorelineDataAsync();
             return _renderer.Render(_projection, shoreline);
         }
     }

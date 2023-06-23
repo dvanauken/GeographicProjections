@@ -1,4 +1,5 @@
 using GeographicProjections.Controller;
+using GeographicProjections.Geometry;
 using GeographicProjections.Projections;
 using GeographicProjections.Rendering;
 using System.Drawing.Imaging;
