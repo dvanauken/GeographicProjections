@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeographicProjections.Projections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,22 @@ namespace GeographicProjections.Rendering
 {
     public class SimpleRenderer : IRenderer
     {
+
+        private ShorelineData shorelineData;
+
+        public SimpleRenderer()
+        {
+            this.shorelineData = new ShorelineData();
+        }
+
+        public async Task Render(IProjection projection, Bitmap bitmap)
+        {
+            List<Coordinate> coordinates = await shorelineData.GetShorelineDataAsync();
+
+            // Use the coordinates and the projection to render the map on the bitmap...
+        }
+
+
         public void DrawPoint(Point3D point)
         {
             // This is a simple implementation that just prints the point to the console.

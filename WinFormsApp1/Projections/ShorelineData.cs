@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace GeographicProjections.Projections
 {
 
-    public class Coordinate
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
+    //public class Coordinate
+    //{
+     //   public double Latitude { get; set; }
+    //    public double Longitude { get; set; }
+    //}
 
     public class Geometry
     {
@@ -69,11 +69,11 @@ namespace GeographicProjections.Projections
 
             var coordinates = new List<Coordinate>();
 
-            foreach (var feature in shorelineData.features)
+            foreach (var feature in shorelineData.Features)
             {
-                foreach (var coordinate in feature.geometry.coordinates)
+                foreach (var coordinate in feature.Geometry.Coordinates)
                 {
-                    coordinates.Add(new Coordinate(coordinate[1], coordinate[0]));
+                    coordinates.Add(new Coordinate(coordinate[0].Latitude, coordinate[0].Longitude));
                 }
             }
 
