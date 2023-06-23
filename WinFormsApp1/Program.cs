@@ -1,4 +1,4 @@
-using GeographicProjections.Conroller;
+using GeographicProjections.Controller;
 using GeographicProjections.Projections;
 using System.Drawing.Imaging;
 
