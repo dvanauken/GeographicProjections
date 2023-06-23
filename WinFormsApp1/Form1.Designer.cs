@@ -1,11 +1,38 @@
-﻿namespace WinFormsApp1
+﻿using GeographicProjections.Controller;
+using GeographicProjections.Projections;
+using GeographicProjections.Rendering;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
 {
-    partial class Form1
+    partial class Form1 : Form
     {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
+
+        private MapController _mapController;
+        private PictureBox pictureBox;
+
+        public Form1()
+        {
+            //InitializeComponent();
+
+            // Create a new PictureBox
+            pictureBox = new PictureBox
+            {
+                Name = "pictureBox1",
+                Size = new Size(800, 600), // Set the size as needed
+                Location = new Point(10, 10), // Set the location as needed
+                BorderStyle = BorderStyle.Fixed3D
+            };
+
+            // Add the PictureBox to the form
+            this.Controls.Add(pictureBox);
+        }
+
 
         /// <summary>
         ///  Clean up any resources being used.
@@ -20,20 +47,16 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        public Form1()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            InitializeComponent();
+
+            IProjection projection = new EquirectangularProjection();
+            Renderer renderer = new Renderer();
+            ShorelineData shorelineData = new ShorelineData();
+
+            _mapController = new MapController(projection, renderer, shorelineData);
         }
 
-        #endregion
     }
 }
