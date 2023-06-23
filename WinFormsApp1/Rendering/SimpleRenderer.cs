@@ -1,60 +1,57 @@
-﻿using GeographicProjections.Geometry;
-using GeographicProjections.Projections;
-using System;
+﻿using GeographicProjections.Projections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace GeographicProjections.Rendering
 {
-    public class SimpleRenderer : IRenderer
+    public class SimpleRenderer : Renderer
     {
-
-        private ShorelineData shorelineData;
-
-        public SimpleRenderer()
+        public SimpleRenderer(int width, int height) : base(width, height)
         {
-            this.shorelineData = new ShorelineData();
         }
 
-        public async Task Render(IProjection projection, Bitmap bitmap)
+        public Bitmap Render(IProjection projection, List<List<Coordinate>> shorelineData)
         {
-            List<Projections.Coordinate> coordinates = await shorelineData.GetShorelineDataAsync();
-
-            // Convert each coordinate to a point using the projection
-            List<Point3D> points = coordinates.Select(coordinate => projection.Forward(coordinate)).ToList();
-
-            // Draw each point on the bitmap
-            foreach (Point3D point in points)
+            // Create a new bitmap to draw on
+            Bitmap bitmap = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bitmap))
             {
-                DrawPoint(point);
+                // Set the background color
+                g.Clear(Color.White);
+
+                // Draw each geometry
+                foreach (var geometry in shorelineData) // <-- Change: Now looping over each geometry
+                {
+                    // Initialize the previous point to null
+                    PointF? previousPoint = null; // <-- Change: Reset previousPoint for each new geometry
+
+                    // Draw the shoreline for this geometry
+                    foreach (var coordinate in geometry)
+                    {
+                        // Convert the geographic coordinates to screen coordinates
+                        Point3D point = projection.Forward(coordinate);
+
+                        // Scale and translate the point to fit into the PictureBox
+                        double scaleX = width / (2.0 * Math.PI); // Longitude range is -π to π
+                        double scaleY = height / Math.PI; // Latitude range is -π/2 to π/2
+                        double translateX = width / 2.0;
+                        double translateY = height / 2.0;
+
+                        // Convert the 3D point to 2D
+                        PointF point2D = new PointF((float)(point.X * scaleX + translateX), (float)(-point.Y * scaleY + translateY)); // Note the negative sign for y to flip the y-axis
+
+                        // If there is a previous point, draw a line from the previous point to the current point
+                        if (previousPoint.HasValue)
+                        {
+                            g.DrawLine(Pens.Black, previousPoint.Value, point2D);
+                        }
+
+                        // Update the previous point
+                        previousPoint = point2D;
+                    }
+                }
             }
-        }
-
-        public void DrawPoint(Point3D point)
-        {
-            // This is a simple implementation that just prints the point to the console.
-            // In a real renderer, you would draw the point on a graphics surface here.
-            Console.WriteLine($"Point: ({point.X}, {point.Y})");
-        }
-
-        public void DrawLine(Point3D start, Point3D end)
-        {
-            // This is a simple implementation that just prints the line to the console.
-            // In a real renderer, you would draw the line on a graphics surface here.
-            Console.WriteLine($"Line: ({start.X}, {start.Y}) to ({end.X}, {end.Y})");
-        }
-
-        public void DrawPolygon(Polygon polygon)
-        {
-            // This is a simple implementation that just prints the polygon to the console.
-            // In a real renderer, you would draw the polygon on a graphics surface here.
-            Console.WriteLine("Polygon:");
-            foreach (var point in polygon.Points)
-            {
-                Console.WriteLine($"  Point: ({point.X}, {point.Y})");
-            }
+            return bitmap;
         }
     }
 }

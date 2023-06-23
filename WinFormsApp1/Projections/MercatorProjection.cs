@@ -10,7 +10,7 @@ namespace GeographicProjections.Projections
     public class MercatorProjection : IProjection
     {
         // Radius of the Earth in meters
-        private const double R = 6378137;
+        private const double R = 1; //6378137;
 
         public Point3D Forward(Coordinate coord)
         {

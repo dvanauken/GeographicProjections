@@ -1,28 +1,23 @@
 ﻿using GeographicProjections.Geometry;
 using GeographicProjections.Projections;
 using GeographicProjections.Rendering;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace GeographicProjections.Controller
+public class MapController
 {
-    public class MapController
+    private IProjection projection;
+    private Renderer renderer;
+    private ShorelineData shorelineData;
+
+    public MapController(IProjection projection, Renderer renderer, ShorelineData shorelineData)
     {
-        private IProjection _projection;
-        private Renderer _renderer;
-        private ShorelineData _shorelineData;
+        this.projection = projection;
+        this.renderer = renderer;
+        this.shorelineData = shorelineData;
+    }
 
-        public MapController(IProjection projection, Renderer renderer, ShorelineData shorelineData)
-        {
-            _projection = projection;
-            _renderer = renderer;
-            _shorelineData = shorelineData;
-        }
-
-        public async Task<Bitmap> RenderMapAsync()
-        {
-            List<Projections.Coordinate> shoreline = await _shorelineData.GetShorelineDataAsync();
-            return _renderer.Render(_projection, shoreline);
-        }
+    public async Task<Bitmap> RenderMapAsync()
+    {
+        List<List<Coordinate>> shorelineData = await this.shorelineData.GetShorelineDataAsync(); // <-- Change type here
+        return renderer.Render(projection, shorelineData);
     }
 }

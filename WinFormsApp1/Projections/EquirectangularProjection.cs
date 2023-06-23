@@ -11,7 +11,8 @@ namespace GeographicProjections.Projections
     public class EquirectangularProjection : IProjection
     {
         // Radius of the Earth in meters
-        private const double R = 6378137;
+        //private const double R = 6378137;
+        private const double R = 1;
 
         public Point3D Forward(Coordinate coord)
         {
