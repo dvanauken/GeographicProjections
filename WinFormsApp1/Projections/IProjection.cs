@@ -9,8 +9,8 @@ namespace GeographicProjections.Projections
 {
     public interface IProjection
     {
-        Point3D forward(Coordinate coordinate);
+        Point3D Forward(Coordinate coordinate);
 
-        Coordinate inverse(Point3D point);
+        Coordinate Inverse(Point3D point);
     }
 }

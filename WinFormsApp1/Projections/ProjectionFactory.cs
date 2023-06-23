@@ -14,6 +14,8 @@ namespace GeographicProjections.Projections
             {
                 case "equirectangular":
                     return new EquirectangularProjection();
+                case "mercator":
+                    return new MercatorProjection();
                 case "orthographic":
                     return new OrthographicProjection();
                 // Add more cases here for other types of projections

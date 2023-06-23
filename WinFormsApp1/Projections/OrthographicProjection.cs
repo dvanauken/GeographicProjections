@@ -10,15 +10,28 @@ namespace GeographicProjections.Projections
 {
     public class OrthographicProjection : IProjection
     {
-        Point3D IProjection.forward(Coordinate coordinate)
+        // Radius of the Earth in meters
+        private const double R = 6378137;
+
+        public Point3D Forward(Coordinate coord)
         {
-            throw new NotImplementedException();
+            double lonRad = coord.Longitude * Math.PI / 180;
+            double latRad = coord.Latitude * Math.PI / 180;
+
+            double x = R * Math.Cos(latRad) * Math.Cos(lonRad);
+            double y = R * Math.Cos(latRad) * Math.Sin(lonRad);
+            double z = R * Math.Sin(latRad);
+
+            return new Point3D(x, y, z);
         }
 
-        Coordinate IProjection.inverse(Point3D point)
+        public Coordinate Inverse(Point3D point)
         {
-            throw new NotImplementedException();
-        }
+            double lonDeg = Math.Atan2(point.Y, point.X) * 180 / Math.PI;
+            double latDeg = Math.Asin(point.Z / R) * 180 / Math.PI;
 
+            return new Coordinate(latDeg, lonDeg);
+        }
     }
+
 }

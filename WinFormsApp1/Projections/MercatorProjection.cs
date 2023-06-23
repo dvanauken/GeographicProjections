@@ -1,14 +1,13 @@
-﻿using System;
+﻿using GeographicProjections.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GeographicProjections.Projections;
-using GeographicProjections.Rendering;
 
 namespace GeographicProjections.Projections
 {
-    public class EquirectangularProjection : IProjection
+    public class MercatorProjection : IProjection
     {
         // Radius of the Earth in meters
         private const double R = 6378137;
@@ -19,7 +18,7 @@ namespace GeographicProjections.Projections
             double latRad = coord.Latitude * Math.PI / 180;
 
             double x = R * lonRad;
-            double y = R * latRad;
+            double y = R * Math.Log(Math.Tan(Math.PI / 4 + latRad / 2));
 
             return new Point3D(x, y, 0);
         }
@@ -27,7 +26,7 @@ namespace GeographicProjections.Projections
         public Coordinate Inverse(Point3D point)
         {
             double lonDeg = point.X * 180 / (Math.PI * R);
-            double latDeg = point.Y * 180 / (Math.PI * R);
+            double latDeg = (2 * Math.Atan(Math.Exp(point.Y / R)) - Math.PI / 2) * 180 / Math.PI;
 
             return new Coordinate(latDeg, lonDeg);
         }
