@@ -23,7 +23,7 @@ namespace WinFormsApp1
             // Use the mapController to render the map...
             // You'll need to create a Bitmap and an IProjection to pass to the RenderMap method.
             Bitmap bitmap = new Bitmap(800, 600); // Example bitmap size
-            IProjection projection = new Equirectangular(); // Example projection
+            IProjection projection = new EquirectangularProjection(); // Example projection
 
             mapController.RenderMap(projection, bitmap).Wait(); // Wait for the rendering to complete
 
