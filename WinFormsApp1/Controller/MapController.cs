@@ -21,7 +21,7 @@ namespace GeographicProjections.Controller
         public async Task RenderMapAsync()
         {
             List<Coordinate> shoreline = await _shorelineData.GetShorelineDataAsync();
-            _renderer.Render(shoreline, _projection);
+            _renderer.Render(_projection, shoreline);
         }
 
         public async Task RenderMap(IProjection projection, Bitmap bitmap)

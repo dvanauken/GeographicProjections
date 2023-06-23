@@ -20,7 +20,7 @@ namespace WinFormsApp1
 
 
             IProjection projection = new EquirectangularProjection(); // Or any other class that implements IProjection
-            Renderer renderer = new Renderer();
+            Renderer renderer = new Renderer(800, 600); // Or any other width and height values you want
             ShorelineData shorelineData = new ShorelineData();
 
             MapController mapController = new MapController(projection, renderer, shorelineData);

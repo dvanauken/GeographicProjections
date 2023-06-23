@@ -60,24 +60,39 @@ namespace GeographicProjections.Projections
         }
         */
 
-
         public async Task<List<Coordinate>> GetShorelineDataAsync()
         {
-            var json = await File.ReadAllTextAsync("path/to/ShorelineData.json");
-
-            var shorelineData = JsonConvert.DeserializeObject<Root>(json);
-
-            var coordinates = new List<Coordinate>();
-
-            foreach (var feature in shorelineData.Features)
+            try
             {
-                foreach (var coordinate in feature.Geometry.Coordinates)
-                {
-                    coordinates.Add(new Coordinate(coordinate[0].Latitude, coordinate[0].Longitude));
-                }
-            }
+                var json = await File.ReadAllTextAsync("ShorelineData.json");
 
-            return coordinates;
+                var shorelineData = JsonConvert.DeserializeObject<Root>(json);
+
+                var coordinates = new List<Coordinate>();
+
+                foreach (var feature in shorelineData.Features)
+                {
+                    foreach (var coordinate in feature.Geometry.Coordinates)
+                    {
+                        coordinates.Add(new Coordinate(coordinate[0].Latitude, coordinate[0].Longitude));
+                    }
+                }
+
+                return coordinates;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception message or do something else with it
+                Console.WriteLine(ex.Message);
+
+                // Stop the application
+                Environment.Exit(1);
+
+                // Return an empty list just to satisfy the method's return type
+                // The application will have stopped before this point, but the compiler doesn't know that
+                return new List<Coordinate>();
+            }
         }
+
     }
 }
