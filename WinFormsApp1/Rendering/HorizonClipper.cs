@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1.Rendering
+namespace GeographicProjections.Rendering
 {
     internal class HorizonClipper
     {

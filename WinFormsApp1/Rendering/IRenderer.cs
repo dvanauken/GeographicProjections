@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1.Rendering
+namespace GeographicProjections.Rendering
 {
     public interface IRenderer
     {
-        void DrawPoint(Point point);
-        void DrawLine(Point start, Point end);
+        void DrawPoint(Point3D point);
+        void DrawLine(Point3D start, Point3D end);
         void DrawPolygon(Polygon polygon);
     }
 }

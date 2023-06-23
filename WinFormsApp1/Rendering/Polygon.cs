@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1.Rendering
+namespace GeographicProjections.Rendering
 {
     public class Polygon
     {
-        public List<Point> Points { get; set; }
+        public List<Point3D> Points { get; set; }
 
-        public Polygon(List<Point> points)
+        public Polygon(List<Point3D> points)
         {
             Points = points;
         }
