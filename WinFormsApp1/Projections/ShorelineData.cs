@@ -60,11 +60,16 @@ namespace GeographicProjections.Projections
         }
         */
 
+
+
         public async Task<List<Coordinate>> GetShorelineDataAsync()
         {
             try
             {
-                var json = await File.ReadAllTextAsync("ShorelineData.json");
+                string projectDirectory = Directory.GetCurrentDirectory();
+                string dataFilePath = Path.Combine(projectDirectory, "Data", "ShorelineData.json");
+                Console.WriteLine(dataFilePath);
+                var json = await File.ReadAllTextAsync(dataFilePath);
 
                 var shorelineData = JsonConvert.DeserializeObject<Root>(json);
 
@@ -82,15 +87,11 @@ namespace GeographicProjections.Projections
             }
             catch (Exception ex)
             {
-                // Log the exception message or do something else with it
+                // Log the exception message
                 Console.WriteLine(ex.Message);
 
-                // Stop the application
-                Environment.Exit(1);
-
-                // Return an empty list just to satisfy the method's return type
-                // The application will have stopped before this point, but the compiler doesn't know that
-                return new List<Coordinate>();
+                // Rethrow the exception
+                throw;
             }
         }
 

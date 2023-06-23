@@ -1,3 +1,6 @@
+using GeographicProjections.Controller;
+using GeographicProjections.Projections;
+using GeographicProjections.Rendering;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,7 +13,6 @@ namespace WinFormsApp1
 
         public Form1()
         {
-
             // Create a new PictureBox
             pictureBox = new PictureBox
             {
@@ -22,6 +24,20 @@ namespace WinFormsApp1
 
             // Add the PictureBox to the form
             this.Controls.Add(pictureBox);
+
+            // Add the Load event handler
+            this.Load += new EventHandler(Form1_Load);
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            IProjection projection = new EquirectangularProjection(); // Or any other class that implements IProjection
+            Renderer renderer = new Renderer(800, 600); // Pass the correct PictureBox
+            ShorelineData shorelineData = new ShorelineData();
+
+            MapController mapController = new MapController(projection, renderer, shorelineData);
+            Bitmap renderedImage = await mapController.RenderMapAsync();
+            pictureBox.Image = renderedImage;
         }
     }
 }

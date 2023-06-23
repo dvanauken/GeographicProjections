@@ -18,15 +18,10 @@ namespace GeographicProjections.Controller
             _shorelineData = shorelineData;
         }
 
-        public async Task RenderMapAsync()
+        public async Task<Bitmap> RenderMapAsync()
         {
             List<Coordinate> shoreline = await _shorelineData.GetShorelineDataAsync();
-            _renderer.Render(_projection, shoreline);
-        }
-
-        public async Task RenderMap(IProjection projection, Bitmap bitmap)
-        {
-            // TODO: Implement the rendering logic here
+            return _renderer.Render(_projection, shoreline);
         }
     }
 }
