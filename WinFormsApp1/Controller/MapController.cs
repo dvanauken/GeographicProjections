@@ -1,32 +1,41 @@
-﻿using GeographicProjections.Projections;
+﻿using System.Drawing;
+using System.Threading.Tasks;
+using GeographicProjections.Projections;
+using GeographicProjections.Rendering;
 
-public async Task RenderMap(IProjection projection, Bitmap bitmap)
+public class MapController
 {
-    // Get the shoreline data
-    Root shoreline = await shorelineData.GetShorelineDataAsync();
+    private SimpleRenderer renderer;
+    private ShorelineData shorelineData = new ShorelineData();
 
-    // Create a Graphics object from the bitmap
-    using (Graphics graphics = Graphics.FromImage(bitmap))
+    public async Task RenderMap(IProjection projection, Bitmap bitmap)
     {
-        // Create a pen to draw the shoreline
-        using (Pen pen = new Pen(Color.Black))
+        // Get the shoreline data
+        Root shoreline = await shorelineData.GetShorelineDataAsync();
+
+        // Create a Graphics object from the bitmap
+        using (Graphics graphics = Graphics.FromImage(bitmap))
         {
-            // Loop through each feature in the shoreline data
-            foreach (var feature in shoreline.Features)
+            // Create a pen to draw the shoreline
+            using (Pen pen = new Pen(Color.Black))
             {
-                // Loop through each coordinate in the feature
-                for (int i = 0; i < feature.Geometry.Coordinates.Count - 1; i++)
+                // Loop through each feature in the shoreline data
+                foreach (var feature in shoreline.Features)
                 {
-                    // Get the current coordinate and the next coordinate
-                    var currentCoordinate = feature.Geometry.Coordinates[i];
-                    var nextCoordinate = feature.Geometry.Coordinates[i + 1];
+                    // Loop through each coordinate in the feature
+                    for (int i = 0; i < feature.Geometry.Coordinates.Count - 1; i++)
+                    {
+                        // Get the current coordinate and the next coordinate
+                        var currentCoordinate = feature.Geometry.Coordinates[i];
+                        var nextCoordinate = feature.Geometry.Coordinates[i + 1];
 
-                    // Project the coordinates to the map
-                    var currentPoint = projection.Forward(new Coordinate(currentCoordinate[1], currentCoordinate[0]));
-                    var nextPoint = projection.Forward(new Coordinate(nextCoordinate[1], nextCoordinate[0]));
+                        // Project the coordinates to the map
+                        var currentPoint = projection.Forward(new Coordinate(currentCoordinate[1], currentCoordinate[0]));
+                        var nextPoint = projection.Forward(new Coordinate(nextCoordinate[1], nextCoordinate[0]));
 
-                    // Draw a line from the current point to the next point
-                    graphics.DrawLine(pen, (float)currentPoint.X, (float)currentPoint.Y, (float)nextPoint.X, (float)nextPoint.Y);
+                        // Draw a line from the current point to the next point
+                        graphics.DrawLine(pen, (float)currentPoint.X, (float)currentPoint.Y, (float)nextPoint.X, (float)nextPoint.Y);
+                    }
                 }
             }
         }
