@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace GeographicProjections.Geometry
 {
-    public class Coordinate
+    public class Coordinates
     {
         public double Longitude { get; set; }
         public double Latitude { get; set; }
 
-        public Coordinate(double longitude, double latitude)
+        public Coordinates(double longitude, double latitude)
         {
             Longitude = longitude;
             Latitude = latitude;
+        }
+
+
+        public override string ToString()
+        {
+            return $"Latitude: {Latitude}, Longitude: {Longitude}";
         }
     }
 

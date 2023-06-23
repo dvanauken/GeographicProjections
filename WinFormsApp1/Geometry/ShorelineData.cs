@@ -1,6 +1,7 @@
 ﻿using GeographicProjections.Projections;
 using GeographicProjections.Rendering;
 using Microsoft.Graph;
+using Microsoft.Graph.InformationProtection.ThreatAssessmentRequests.Item.Results;
 using Microsoft.Graph.Models;
 using Newtonsoft.Json;
 using System;
@@ -29,23 +30,20 @@ namespace GeographicProjections.Geometry
 
                 var shorelineData = JsonConvert.DeserializeObject<Root>(json);
 
-                var coordinates = new List<Projections.Coordinate>();
+                List<Projections.Coordinate> result = new List<Projections.Coordinate>();
 
                 foreach (Feature feature in shorelineData.Features)
                 {
-                    foreach (List<List<double>> polygon in feature.Geometry.Coordinates)
+                    foreach (List<double> cc in feature.Geometry.Coordinates)
                     {
-                        foreach (List<double> point in polygon)
-                        {
-                            // Create a new Coordinate object for each pair of latitude and longitude values
-                            Projections.Coordinate coordinate = new Projections.Coordinate(point[0], point[1]); // Note the indices
-                            coordinates.Add(coordinate);
-                        }
+                        // Create a new Coordinate object for each pair of latitude and longitude values
+                        Coordinates c = new Coordinates(cc[1], cc[0]); // Note the indices
+                        Projections.Coordinate coordinate = new Coordinate(cc[1], cc[0]);
+                        Console.WriteLine(coordinate);
+                        result.Add(coordinate);
                     }
                 }
-
-
-                return coordinates;
+                return result;
             }
             catch (Exception ex)
             {
